@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Book Alchemy - Home</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+        <p class="center">
+            [<a href="{{ url_for('home') }}">Home</a>]
+            [<a href="{{ url_for('add_book') }}">Add Book</a>]
+            [<a href="{{ url_for('add_author') }}">Add Author</a>]<br>
+            [By Title:
+            <a href="{{ url_for('sort_by_title_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_title_asc') }}">Ascending</a>]
+            [By Author:
+            <a href="{{ url_for('sort_by_author_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_author_asc') }}">Ascending</a>]
+        </p>
+        <form action="{{ url_for('search_books') }}" method="POST" class="search center">
+            <input type="text" id="search" name="search" required>
+            <button type="submit" class="green">Search</button>
+        </form>
+        {% if books %}
+        <table><tr>
+            <th>Cover</th>
+            <th>Title</th>
+            <th>Author</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>
+                <img src="{{ get_cover(book.isbn) }}" alt="{{ book.title }}">
+            </td>
+            <td>{{ book.title }}<br>
+                <a href="{{ url_for('edit_book', book_id=book.id) }}"><button type="button" class="yellow">Edit</button></a>
+                <a href="{{ url_for('delete_book', book_id=book.id) }}"><button type="button" class="red">Delete</button></a>
+            </td>
+            <td>{{ book.author_list.name }}<br>
+                <a href="{{ url_for('edit_author', author_id=book.author_id) }}"><button type="button" class="yellow">Edit</button></a>
+                <a href="{{ url_for('delete_author', author_id=book.author_id) }}"><button type="button" class="red">Delete</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </table>
+        {% else %}
+        <div>No books. Want to add one?</div>
+        {% endif %}
+    </body>
+</html>

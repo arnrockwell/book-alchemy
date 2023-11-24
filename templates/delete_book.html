@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Book Alchemy - Delete Book</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+        <p class="center">
+            [<a href="{{ url_for('home') }}">Home</a>]
+            [<a href="{{ url_for('add_book') }}">Add Book</a>]
+            [<a href="{{ url_for('add_author') }}">Add Author</a>]<br>
+            [By Title:
+            <a href="{{ url_for('sort_by_title_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_title_asc') }}">Ascending</a>]
+            [By Author:
+            <a href="{{ url_for('sort_by_author_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_author_asc') }}">Ascending</a>]
+        </p>
+        <form action="{{ url_for('search_books') }}" method="POST" class="search center">
+            <input type="text" id="search" name="search" required>
+            <button type="submit" class="green">Search</button>
+        </form>
+        <p class="center">
+            You are about to delete the following book:
+        </p>
+        <p class="center">
+            <img src="{{ get_cover(book.isbn) }}" alt="{{ book.title }}"><br>
+            <strong>ISBN:</strong> {{ book.isbn }}<br>
+            <strong>Title:</strong> {{ book.title }}<br>
+            <strong>Author:</strong> {{ book.author_list.name }}<br>
+            <strong>Publication Year:</strong> {{ book.publication_year }}
+        </p>
+        <p class="center warning">
+            This CANNOT be undone!
+        </p>
+        <p class="center">
+            Note: If this is the last book under this author, the author <span class="warning">will also be deleted</span> from the database.
+        </p>
+        <p class="center warning">
+            ARE YOU SURE?
+        </p>
+        <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST">
+            <p class="center">
+                <button type="submit" class="red">Delete</button>
+            </p>
+        </form>
+    </body>
+</html>

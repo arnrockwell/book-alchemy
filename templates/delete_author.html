@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Book Alchemy - Delete Author</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+        <p class="center">
+            [<a href="{{ url_for('home') }}">Home</a>]
+            [<a href="{{ url_for('add_book') }}">Add Book</a>]
+            [<a href="{{ url_for('add_author') }}">Add Author</a>]<br>
+            [By Title:
+            <a href="{{ url_for('sort_by_title_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_title_asc') }}">Ascending</a>]
+            [By Author:
+            <a href="{{ url_for('sort_by_author_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_author_asc') }}">Ascending</a>]
+        </p>
+        <form action="{{ url_for('search_books') }}" method="POST" class="search center">
+            <input type="text" id="search" name="search" required>
+            <button type="submit" class="green">Search</button>
+        </form>
+        <p class="center">
+            You are about to delete the following author:
+        </p>
+        <p class="center">
+            <strong>Author Name:</strong> {{ author.name }}<br>
+            <strong>Birthdate:</strong> {{ author.birth_date }}<br>
+            <strong>Date of Death:</strong> {{ author.date_of_death }}
+         </p>
+        <p class="center warning">
+            This CANNOT be undone!
+        </p>
+        <p class="center">
+            Note: Deleting this author will <span class="warning">automatically delete all books associated with that author</span> from the database.
+        </p>
+        <p class="center warning">
+            ARE YOU SURE?
+        </p>
+        <form action="{{ url_for('delete_author', author_id=author.id) }}" method="POST">
+            <p class="center">
+                <button type="submit" class="red">Delete</button>
+            </p>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Book Alchemy - Edit Book</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+        <p class="center">
+            [<a href="{{ url_for('home') }}">Home</a>]
+            [<a href="{{ url_for('add_book') }}">Add Book</a>]
+            [<a href="{{ url_for('add_author') }}">Add Author</a>]<br>
+            [By Title:
+            <a href="{{ url_for('sort_by_title_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_title_asc') }}">Ascending</a>]
+            [By Author:
+            <a href="{{ url_for('sort_by_author_desc') }}">Descending</a> or
+            <a href="{{ url_for('sort_by_author_asc') }}">Ascending</a>]
+        </p>
+        <form action="{{ url_for('search_books') }}" method="POST" class="search center">
+            <input type="text" id="search" name="search" required>
+            <button type="submit" class="green">Search</button>
+        </form>
+        <form action="{{ url_for('edit_book', book_id=book.id) }}" method="POST" class="info_form">
+            <div class="label"><label for="isbn">* ISBN:</label></div>
+            <div><input type="number" id="isbn" name="isbn" value="{{ book.isbn }}" required></div>
+            <div class="label"><label for="title">* Title:</label></div>
+            <div><input type="text" id="title" name="title" value="{{ book.title }}" required></div>
+            <div class="label"><lable for="author">* Author:</label></div>
+            <div><input type="text" id="author" name="author" value="{{ book.author_list.name }}" required></div>
+            <div class="label"><label for="publication_year">Publication Year:</label></div>
+            <div><input type="number" id="publication_year" name="publication_year" value="{{ book.publication_year }}"></div>
+            <div class="button">
+                <p>* = required</p>
+                <input type="submit" value="Edit Book">
+            </div>
+        </form>
+    </body>
+</html>
